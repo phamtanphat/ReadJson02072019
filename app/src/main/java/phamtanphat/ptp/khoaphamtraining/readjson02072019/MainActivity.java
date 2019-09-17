@@ -2,6 +2,7 @@ package phamtanphat.ptp.khoaphamtraining.readjson02072019;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,10 +38,11 @@ public class MainActivity extends AppCompatActivity {
         btnJsonDemo1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                xulydocjsondemo1();
             }
         });
     }
+    @SuppressLint("CheckResult")
     private void xulydocjsondemo1(){
         mData = Observable.defer(new Callable<ObservableSource<? extends String>>() {
             @Override
