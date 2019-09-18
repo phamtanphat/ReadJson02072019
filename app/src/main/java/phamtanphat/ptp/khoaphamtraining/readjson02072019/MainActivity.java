@@ -1,5 +1,6 @@
 package phamtanphat.ptp.khoaphamtraining.readjson02072019;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -8,10 +9,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.concurrent.Callable;
+
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,8 +25,10 @@ public class MainActivity extends AppCompatActivity {
     TextView txtJsonDemo1;
     Button btnJsonDemo1;
     // Dai quan sat : Noi chua du lieu se phat tan ra ngoai
-    Observable<String> mData;
+    Observable<Sinhvien> mData;
     Disposable disposable;
+    Sinhvien sinhvien;
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,30 +44,40 @@ public class MainActivity extends AppCompatActivity {
 //        });
         // Viet ra 1 observable cho Doi tuong sinh vien
         // Khi doi tuong sinhvien thay doi thi onNext se chay lai
+        sinhvien = new Sinhvien();
+        sinhvien.ten = "phat";
 
-        mData = Observable.just("Hoa","Phat","Tuan","Loi","Thuy");
+
+        mData = Observable.defer(new Callable<ObservableSource<? extends Sinhvien>>() {
+            @Override
+            public ObservableSource<? extends Sinhvien> call() throws Exception {
+                return Observable.just(sinhvien);
+            }
+        });
+        sinhvien = new Sinhvien();
+        sinhvien.ten = "Tuan";
         mData
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Observer<String>() {
+            .subscribe(new Consumer<Sinhvien>() {
                 @Override
-                public void onSubscribe(Disposable d) {
-                    disposable = d;
+                public void accept(Sinhvien sinhvien) throws Exception {
+                    Log.d("BBB", sinhvien.ten);
                 }
-
+            }, new Consumer<Throwable>() {
                 @Override
-                public void onNext(String s) {
-                    Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onError(Throwable e) {
+                public void accept(Throwable throwable) throws Exception {
 
                 }
-
+            }, new Action() {
                 @Override
-                public void onComplete() {
+                public void run() throws Exception {
 
+                }
+            }, new Consumer<Disposable>() {
+                @Override
+                public void accept(Disposable dis) throws Exception {
+                    disposable = dis;
                 }
             });
 
