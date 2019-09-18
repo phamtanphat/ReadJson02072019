@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnJsonDemo1;
     // Dai quan sat : Noi chua du lieu se phat tan ra ngoai
     Observable<String> mData;
+    Disposable disposable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             .subscribe(new Observer<String>() {
                 @Override
                 public void onSubscribe(Disposable d) {
-
+                    disposable = d;
                 }
 
                 @Override
@@ -60,7 +61,15 @@ public class MainActivity extends AppCompatActivity {
             });
 
     }
-//    @SuppressLint("CheckResult")
+
+    @Override
+    protected void onStop() {
+        if (disposable != null){
+            disposable.dispose();
+        }
+        super.onStop();
+    }
+    //    @SuppressLint("CheckResult")
 //    private void xulydocjsondemo1(){
 //        mData = Observable.defer(new Callable<ObservableSource<? extends String>>() {
 //            @Override
