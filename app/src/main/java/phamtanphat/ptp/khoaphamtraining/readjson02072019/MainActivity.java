@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
 //                xulydocjsondemo1();
 //            }
 //        });
+        // Viet ra 1 observable cho Doi tuong sinh vien
+        // Khi doi tuong sinhvien thay doi thi onNext se chay lai
+
         mData = Observable.just("Hoa","Phat","Tuan","Loi","Thuy");
         mData
             .subscribeOn(Schedulers.io())
