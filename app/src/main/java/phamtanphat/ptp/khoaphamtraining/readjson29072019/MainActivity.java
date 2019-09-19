@@ -4,9 +4,12 @@ import androidx.annotation.MainThread;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 //    Observable<String> mDataUrl;
     // dai quan sat : Noi chua du lieu
     Observable<String> mData;
+    @SuppressLint("CheckResult")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +60,9 @@ public class MainActivity extends AppCompatActivity {
             .subscribe(new Consumer<String>() {
                 @Override
                 public void accept(String s) throws Exception {
-                    Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+                    JSONObject jsonObject = new JSONObject(s);
+                    String monhoc = jsonObject.getString("monhoc");
+                    Log.d("BBB",monhoc);
                 }
             });
 
