@@ -50,6 +50,15 @@ public class MainActivity extends AppCompatActivity {
                 return Observable.just(docNoiDung_Tu_URL("https://khoapham.vn/KhoaPhamTraining/json/tien/demo1.json"));
             }
         });
+        mData
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Consumer<String>() {
+                @Override
+                public void accept(String s) throws Exception {
+                    Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+                }
+            });
 
     }
     private String docNoiDung_Tu_URL(String theUrl){
