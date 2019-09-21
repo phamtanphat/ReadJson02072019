@@ -1,12 +1,25 @@
 package phamtanphat.ptp.khoaphamtraining.readjson02072019;
 
+import android.annotation.SuppressLint;
+
 import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.concurrent.Callable;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainViewModel extends ViewModel implements LifecycleObserver {
     //Viewmodel
@@ -17,6 +30,35 @@ public class MainViewModel extends ViewModel implements LifecycleObserver {
     public MainViewModel() {
 
     }
+
+    MutableLiveData<String> mDataDemo1 = new MutableLiveData<>();
+    @SuppressLint("CheckResult")
+    public void callDataDemo1(final String url){
+        Observable.defer(new Callable<ObservableSource<?>>() {
+            @Override
+            public ObservableSource<?> call() throws Exception {
+                return Observable.just(docNoiDung_Tu_URL(url));
+            }
+        })
+        .subscribeOn(Schedulers.io())
+        .map(new Function<Object, String>() {
+            @Override
+            public String apply(Object o) throws Exception {
+                return o.toString();
+            }
+        })
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) throws Exception {
+                mDataDemo1.setValue(s);
+            }
+        });
+
+    }
+
+
+
 
 
     private String docNoiDung_Tu_URL(String theUrl){
