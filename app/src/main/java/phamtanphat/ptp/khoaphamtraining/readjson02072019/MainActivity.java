@@ -4,6 +4,7 @@ package phamtanphat.ptp.khoaphamtraining.readjson02072019;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -43,8 +44,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(String s) {
                 if (s != null){
-
+                    txtDemo1.setText(s);
                 }
+            }
+        });
+        btnDemo1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainViewModel.callDataDemo1("https://khoapham.vn/KhoaPhamTraining/json/tien/demo1.json");
             }
         });
 
