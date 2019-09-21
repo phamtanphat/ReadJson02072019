@@ -1,12 +1,15 @@
 package phamtanphat.ptp.khoaphamtraining.readjson02072019;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -28,7 +31,6 @@ public class MainViewModel extends ViewModel implements LifecycleObserver {
     //Viewmodel
 //            + Giu lai du lieu cho activity
 //            + Ban thong tin qa cho activity
-
 
     public MainViewModel() {
 
@@ -56,13 +58,14 @@ public class MainViewModel extends ViewModel implements LifecycleObserver {
                 .subscribe(new Consumer<String>() {
                     @Override
                     public void accept(String s) throws Exception {
-                        mDataDemo1.setValue(s);
+                        JSONObject jsonObject = new JSONObject(s);
+                        String monhoc = jsonObject.getString("monhoc");
+                        mDataDemo1.setValue(monhoc);
                     }
                 })
         );
 
     }
-
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void clearDisposable(){

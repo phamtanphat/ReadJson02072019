@@ -4,8 +4,11 @@ package phamtanphat.ptp.khoaphamtraining.readjson02072019;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import org.json.JSONObject;
 
@@ -24,31 +27,26 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
-    Observable<String> mData;
-    @SuppressLint("CheckResult")
+    MainViewModel mainViewModel;
+    Button btnDemo1;
+    TextView txtDemo1;
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mData = Observable.defer(new Callable<ObservableSource<? extends String>>() {
+        btnDemo1 = findViewById(R.id.buttonJsonDemo1);
+        txtDemo1 = findViewById(R.id.textviewJson);
+        mainViewModel = new MainViewModel();
+        // truyen viewmodel cho activty de quan sat lifecycle
+        getLifecycle().addObserver(mainViewModel);
+        mainViewModel.mDataDemo1.observe(this, new Observer<String>() {
             @Override
-            public ObservableSource<? extends String> call() throws Exception {
-                return Observable.just(docNoiDung_Tu_URL("https://khoapham.vn/KhoaPhamTraining/json/tien/demo1.json"));
+            public void onChanged(String s) {
+                if (s != null){
+
+                }
             }
         });
-        mData
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<String>() {
-                    @Override
-                    public void accept(String s) throws Exception {
-                        JSONObject jsonObject = new JSONObject(s);
-                        String monhoc = jsonObject.getString("monhoc");
-                        Log.d("BBB",monhoc);
-                    }
-                });
 
     }
 
