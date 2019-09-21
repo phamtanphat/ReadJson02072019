@@ -1,4 +1,4 @@
-package phamtanphat.ptp.khoaphamtraining.readjson29072019;
+package phamtanphat.ptp.khoaphamtraining.readjson02072019;
 
 import org.junit.Test;
 

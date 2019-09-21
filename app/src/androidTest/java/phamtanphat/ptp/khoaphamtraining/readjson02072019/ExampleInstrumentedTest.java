@@ -1,4 +1,4 @@
-package phamtanphat.ptp.khoaphamtraining.readjson29072019;
+package phamtanphat.ptp.khoaphamtraining.readjson02072019;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("phamtanphat.ptp.khoaphamtraining.readjson29072019", appContext.getPackageName());
+        assertEquals("phamtanphat.ptp.khoaphamtraining.readjson02072019", appContext.getPackageName());
     }
 }
