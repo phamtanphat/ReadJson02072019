@@ -44,11 +44,19 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         // truyen viewmodel cho activty de quan sat lifecycle
         getLifecycle().addObserver(mainViewModel);
-        mainViewModel.mDataDemo1.observe(this, new Observer<String>() {
+        mainViewModel.mDataDemo1.observe(this, new Observer<Demo1>() {
             @Override
-            public void onChanged(String s) {
-                if (s != null){
-                    txtDemo1.setText(s);
+            public void onChanged(Demo1 demo1) {
+                if (demo1 != null){
+                    String demo =
+                            "Mon hoc : " +demo1.getMonhoc() + "\n".concat(
+                                "Noi hoc : " +demo1.getNoihoc() + "\n".concat(
+                                    "Website : " +demo1.getWebsite() + "\n".concat(
+                                        "Fanpage : " +demo1.getFanpage() + "\n"
+                                    )
+                                )
+                            );
+                    txtDemo1.append(demo);
                 }
             }
         });
