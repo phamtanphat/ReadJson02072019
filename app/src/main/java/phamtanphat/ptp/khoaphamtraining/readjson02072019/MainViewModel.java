@@ -2,8 +2,10 @@ package phamtanphat.ptp.khoaphamtraining.readjson02072019;
 
 import android.annotation.SuppressLint;
 
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ViewModel;
 
 import java.io.BufferedReader;
@@ -43,24 +45,31 @@ public class MainViewModel extends ViewModel implements LifecycleObserver {
                         return Observable.just(docNoiDung_Tu_URL(url));
                     }
                 })
-                        .subscribeOn(Schedulers.io())
-                        .map(new Function<Object, String>() {
-                            @Override
-                            public String apply(Object o) throws Exception {
-                                return o.toString();
-                            }
-                        })
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<String>() {
-                            @Override
-                            public void accept(String s) throws Exception {
-                                mDataDemo1.setValue(s);
-                            }
-                        })
+                .subscribeOn(Schedulers.io())
+                .map(new Function<Object, String>() {
+                    @Override
+                    public String apply(Object o) throws Exception {
+                        return o.toString();
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        mDataDemo1.setValue(s);
+                    }
+                })
         );
 
     }
 
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void clearDisposable(){
+        if (mCompositeDisposable != null){
+            mCompositeDisposable.dispose();
+        }
+    }
 
 
 
