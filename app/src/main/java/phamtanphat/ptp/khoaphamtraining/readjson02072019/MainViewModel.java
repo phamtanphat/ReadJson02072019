@@ -36,7 +36,7 @@ public class MainViewModel extends ViewModel implements LifecycleObserver {
 
     }
 
-    MutableLiveData<String> mDataDemo1 = new MutableLiveData<>();
+    MutableLiveData<Demo1> mDataDemo1 = new MutableLiveData<>();
     CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     @SuppressLint("CheckResult")
     public void callDataDemo1(final String url){
@@ -60,7 +60,11 @@ public class MainViewModel extends ViewModel implements LifecycleObserver {
                     public void accept(String s) throws Exception {
                         JSONObject jsonObject = new JSONObject(s);
                         String monhoc = jsonObject.getString("monhoc");
-                        mDataDemo1.setValue(monhoc);
+                        String noihoc = jsonObject.getString("noihoc");
+                        String website = jsonObject.getString("website");
+                        String fanpage = jsonObject.getString("fanpage");
+                        String logo = jsonObject.getString("logo");
+                        mDataDemo1.setValue(new Demo1(monhoc,noihoc,website,fanpage,logo));
                     }
                 })
         );
