@@ -16,6 +16,7 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -32,28 +33,31 @@ public class MainViewModel extends ViewModel implements LifecycleObserver {
     }
 
     MutableLiveData<String> mDataDemo1 = new MutableLiveData<>();
+    CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     @SuppressLint("CheckResult")
     public void callDataDemo1(final String url){
-        Observable.defer(new Callable<ObservableSource<?>>() {
-            @Override
-            public ObservableSource<?> call() throws Exception {
-                return Observable.just(docNoiDung_Tu_URL(url));
-            }
-        })
-        .subscribeOn(Schedulers.io())
-        .map(new Function<Object, String>() {
-            @Override
-            public String apply(Object o) throws Exception {
-                return o.toString();
-            }
-        })
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Consumer<String>() {
-            @Override
-            public void accept(String s) throws Exception {
-                mDataDemo1.setValue(s);
-            }
-        });
+        mCompositeDisposable.add(
+            Observable.defer(new Callable<ObservableSource<?>>() {
+                    @Override
+                    public ObservableSource<?> call() throws Exception {
+                        return Observable.just(docNoiDung_Tu_URL(url));
+                    }
+                })
+                        .subscribeOn(Schedulers.io())
+                        .map(new Function<Object, String>() {
+                            @Override
+                            public String apply(Object o) throws Exception {
+                                return o.toString();
+                            }
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Consumer<String>() {
+                            @Override
+                            public void accept(String s) throws Exception {
+                                mDataDemo1.setValue(s);
+                            }
+                        })
+        );
 
     }
 
