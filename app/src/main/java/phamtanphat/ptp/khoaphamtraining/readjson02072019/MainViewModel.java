@@ -71,6 +71,7 @@ public class MainViewModel extends ViewModel implements LifecycleObserver {
     public void clearDisposable(){
         if (mCompositeDisposable != null){
             mCompositeDisposable.dispose();
+//            Log.d("BBB",mCompositeDisposable.isDisposed() + "");
         }
     }
 

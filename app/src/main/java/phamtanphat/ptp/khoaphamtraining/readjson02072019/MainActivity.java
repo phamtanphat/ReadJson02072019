@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import org.json.JSONObject;
 
@@ -38,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
         btnDemo1 = findViewById(R.id.buttonJsonDemo1);
         txtDemo1 = findViewById(R.id.textviewJson);
         mainViewModel = new MainViewModel();
+        // dung thu vien lifecycle giu lai thong cua activity cho viewmodel
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         // truyen viewmodel cho activty de quan sat lifecycle
         getLifecycle().addObserver(mainViewModel);
         mainViewModel.mDataDemo1.observe(this, new Observer<String>() {
