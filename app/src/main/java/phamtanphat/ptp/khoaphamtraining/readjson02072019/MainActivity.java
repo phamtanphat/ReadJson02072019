@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONObject;
 
@@ -33,12 +36,14 @@ public class MainActivity extends AppCompatActivity {
     MainViewModel mainViewModel;
     Button btnDemo1;
     TextView txtDemo1;
+    ImageView imgDemo1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnDemo1 = findViewById(R.id.buttonJsonDemo1);
         txtDemo1 = findViewById(R.id.textviewJson);
+        imgDemo1 = findViewById(R.id.imageview);
         mainViewModel = new MainViewModel();
         // dung thu vien lifecycle giu lai thong cua activity cho viewmodel
         mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
@@ -56,7 +61,12 @@ public class MainActivity extends AppCompatActivity {
                                     )
                                 )
                             );
-                    txtDemo1.append(demo);
+                    Glide
+                        .with(MainActivity.this)
+                        .load(demo1.getLogo())
+                        .placeholder(R.drawable.ic_launcher_background)
+                        .into(imgDemo1);
+                    txtDemo1.setText(demo);
                 }
             }
         });
